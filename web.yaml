@@ -1,0 +1,51 @@
+#shop
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+      name: backend-ecshop4
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: backend-ecshop4
+    spec:
+      volumes:
+        - name: web-data
+          hostPath:
+            path: ~/deploy/web/
+      containers:
+        - name: nginx
+          image: deploy_nginx-server:latest
+          volumeMounts:
+            - name: web-data
+              mountPath: /var/www/
+          ports:
+            - containerPort: 80
+        - name: php7
+          image: deploy_php-server
+          volumeMounts:
+            - name: web-data
+              mountPath: /var/www/
+          ports:
+            - containerPort: 9000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+  selector:
+    name: backend-ecshop4
+
