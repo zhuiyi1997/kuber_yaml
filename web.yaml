@@ -43,9 +43,11 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
+      name: nginx-service
     - port: 9000
       targetPort: 9000
       protocol: TCP
+      name: php-service
   selector:
     name: backend-ecshop4
 
