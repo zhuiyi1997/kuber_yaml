@@ -16,7 +16,7 @@ spec:
       volumes:
         - name: web-data
           hostPath:
-            path: /home/ubuntu/deploy/web/
+            path: /home/ubuntu/deploy/php-server/www/
         - name: nginx-host
           hostPath:
             path: /home/ubuntu/deploy/nginx-server/nginx_conf/
