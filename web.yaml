@@ -16,17 +16,24 @@ spec:
       volumes:
         - name: web-data
           hostPath:
-            path: ~/deploy/web/
+            path: /home/ubuntu/deploy/web/
+        - name: nginx-host
+          hostPath:
+            path: /home/ubuntu/deploy/nginx-server/nginx_conf/
       containers:
         - name: nginx
           image: deploy_nginx-server:latest
+          imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: web-data
               mountPath: /var/www/
+            - name: nginx-host
+              mountPath: /etc/nginx/
           ports:
             - containerPort: 80
         - name: php7
-          image: deploy_php-server
+          image: deploy_php-server:latest
+          imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: web-data
               mountPath: /var/www/
